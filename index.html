@@ -4,9 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <title>PokeDex</title>
 </head>
 <body>
   <h1>Pokedex thing</h1>
+  <input type="text" id="pokemon" value="" onKeyDown="if(event.keyCode==13) get_pokemon();">
+  <input id="pokemonButton" type="submit" value="Submit" onclick="get_pokemon()">
+  <h3>name:</h3><p id="poke_name"></p>
+  <h3>height:</h3><p id="poke_height"></p>
+  <h3>weight:</h3><p id="poke_weight"></p>
+  <h3>Image:</h3><p id="poke_image"></p>
 </body>
+
+<script type="text/javascript">
+  var myurl= "https://pokeapi.co/api/v2/pokemon/"; //ditto/
+  console.log(myurl);
+  $.ajax({
+    url : myurl,
+    crossDomain: true,
+    dataType : "json",
+    success : function(parsed_json) {
+      console.log(parsed_json);
+    }
+  });
+  
+  function get_pokemon() {
+    console.log(pokemon.value);
+    var myPokemon = pokemon.value
+    var myurl= "https://pokeapi.co/api/v2/pokemon/"; //ditto/
+    myurl += myPokemon + "/";
+    console.log(myurl);
+    $.ajax({
+    url : myurl,
+    crossDomain: true,
+    dataType : "json",
+    success : function(parsed_json) {
+      console.log(parsed_json);
+      $("#poke_name").html(JSON.stringify(parsed_json["name"]));
+      console.log(JSON.stringify(parsed_json["name"]))
+      $("#poke_height").html(JSON.stringify(parsed_json["height"]));
+      console.log(JSON.stringify(parsed_json["height"]))
+      $("#poke_weight").html(JSON.stringify(parsed_json["weight"]));
+      console.log(JSON.stringify(parsed_json["weight"]))
+      $("#poke_image").html(JSON.stringify(parsed_json["front_default"]));
+      console.log(JSON.stringify(parsed_json["obj.sprites.front_default"]))
+      //$("#poke_image").src(JSON.stringify(parsed_json["sprites:front_fualt"]))
+    }
+  });
+  }
+</script>
 </html>
