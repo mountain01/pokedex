@@ -38,13 +38,13 @@
         <div class="grill"></div>
       </div>
       <div class="buttons">
-        <div class="blueButton">
+        <div class="blueButton" onclick="flipShine()">
           <p>Shiny</p>
         </div>
-        <div class="start">
+        <div class="select" onclick="changeImg('front')">
           <p>Front</p>
         </div>
-        <div class="select">
+        <div class="start" onclick="changeImg('back')">
           <p>Back</p>
         </div>
       </div>
@@ -123,6 +123,7 @@
 
   const input = $('.trueInput');
   let sprites;
+  let shine = 'default';
 
   input.keyup(({
     keyCode: key
@@ -151,15 +152,17 @@
         sprites = imgs;
         const displayName = `#${id} ${name}`;
         $('.name').html(displayName);
-        $('.pokeImage').attr('src', sprites.front_default);
+        changeImg('front');
         $('.typeText').html(types.map(a => a.type.name).join(' '));
         $('.heightText').html(parseNum(height) + ' m');
         $('.weightText').html(parseNum(weight) + ' kg');
         $.ajax({
           url: species.url
-        }).then(desc=>{
-          const {flavor_text_entries: ft} = desc;
-          const description = ft.find(a=>a.language.name === 'en').flavor_text;
+        }).then(desc => {
+          const {
+            flavor_text_entries: ft
+          } = desc;
+          const description = ft.find(a => a.language.name === 'en').flavor_text;
           $('.descriptionText').html(description);
         });
       }
@@ -168,6 +171,22 @@
     function parseNum(num) {
       return parseFloat(Math.round(num * 100) / 1000).toFixed(1);
     }
+
+  }
+
+  let face;
+  function changeImg(side) {
+    face = side;
+    $('.pokeImage').attr('src', sprites[`${side}_${shine}`]);
+  }
+
+  function flipShine() {
+    if (shine === 'default') {
+      shine = 'shiny';
+    } else {
+      shine = 'default';
+    }
+    changeImg(face);
   }
 </script>
 
