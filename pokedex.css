@@ -334,7 +334,7 @@ body {
   text-transform: uppercase;
 }
 
-.blueButton:hover {
+.blueButton:hover, .shiny {
   cursor: pointer;
   background: lightyellow;
   box-shadow: -.5vh .5vh gold;
